@@ -1,0 +1,22 @@
+\c - current connection DB and User/Role
+
+In local with peer auth. you can connect only with your unix user
+  (optional change method for postgres to md5 - /etc/postgresql/*/main/pg_hba.conf)
+-- psql -U pe6oprogramista -d database_name
+-- 
+For password(md5) auth. you have to connect by ip
+-- psql -U username -h 127.0.01 -p 5432 -d database_name (export PGPASSWORD='***')
+
+Setup DB:
+    Install postgresql - sudo apt-get install postgresql-12
+    sudo service postgresql start
+    
+    sudo -u postgres psql [-d] postgres
+    -- sudo -i -u postgres (-i login as user, -u user to exec command - default is root)
+    
+    (skip this) =# create user name with password '***';  // sudo -u postgres createuser --interactive
+    
+    =# create database games_app;   // sudo -u postgres createdb games_app
+    =# \c games_app
+
+    =# \i[r] setup_db.sql - exec file; \ir means relative exec  // sudo -u postgres psql -d games_app -f setup_db.sql [-a] (-a log the queries)

@@ -1,3 +1,9 @@
+jsconfig.json
+
+database/InfinityCaveGameDB.sql
+database/schema.sql
+database/tmp.sql
+
 # Logs
 logs
 *.log

@@ -1,0 +1,45 @@
+{
+  "name": "games-app",
+  "version": "1.0.0",
+  "description": "Browser Games Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pe6oProgramista/games-app.git"
+  },
+  "keywords": [
+    "browser",
+    "game",
+    "app",
+    "applicatin",
+    "games",
+    "online"
+  ],
+  "author": "",
+  "contributors": [
+    {
+      "name": "Todor Dimitrov",
+      "email": "your@email.com",
+      "url": "https://github.com/todorakisa"
+    },
+    {
+      "name": "Peter Milev",
+      "email": "your@email.com",
+      "url": "https://github.com/Pe6oProgramista"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pe6oProgramista/games-app/issues"
+  },
+  "homepage": "https://github.com/Pe6oProgramista/games-app#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
