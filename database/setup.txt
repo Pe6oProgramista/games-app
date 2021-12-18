@@ -20,3 +20,4 @@ Setup DB:
     =# \c games_app
 
     =# \i[r] setup_db.sql - exec file; \ir means relative exec  // sudo -u postgres psql -d games_app -f setup_db.sql [-a] (-a log the queries)
+      !! edit password for the new role in setup_db.sql

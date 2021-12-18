@@ -1,5 +1,5 @@
--- drop database if exists test;
--- create database if not exists test;
+-- drop database if exists games_app;
+-- create database if not exists games_app;
 
 revoke all on schema public from public;
 create schema if not exists app;
@@ -13,7 +13,7 @@ create table if not exists app.users (
     created_at timestamp not null default now()
 );
 
-create role if not exists games_app_admin with connection limit 10 login password '123' valid until '2022-06-01';
+create role exists games_app_admin with connection limit 10 login password '123' valid until '2022-06-01';
 grant connect on database games_app to games_app_admin;
 grant usage on schema app to games_app_admin;
 

@@ -1,0 +1,11 @@
+body {
+  background-color: rgb(168, 164, 164);
+}
+
+a.active {
+  color: green;
+}
+
+.hidden {
+  display: none;
+}
