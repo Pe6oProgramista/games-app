@@ -27,39 +27,41 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs'); // app.set('views','views');
 app.set('layout', './layout');
 app.use( '/static', express.static('public', {index: false}) );
-app.use(express.json());
+app.use(express.json()); // for json-like request body
+app.use(express.urlencoded({extended: true})); // for urlencoded requests like default form submit
 app.use(cookieParser(process.env.COOKIE_SECRET || 'dsadasdsadsada'));
+
 app.use(utils.strictRender);
 app.use(flashAll);
 
 app.use('/', indexRouter);
-app.use('/users', utils.auth, usersRouter);
+app.use('/users', utils.isAuth, usersRouter);
 
-// 404
-app.use((req, res, next) => {
-  res.status(404);
-  utils.renderWithLayout(res, 'not_found', '404');
-});
+// // 404
+// app.use((req, res, next) => {
+//   res.status(404);
+//   utils.renderWithLayout(res, 'not_found', '404');
+// });
 
-// 500
-app.use((err, req, res, next) => {
-  let a = next();
-  if (err.message.includes('jwt')) {
-    return void res
-      .clearCookie('auth-cookie')
-      .sendStatus(401)
-      // .status(401)
-      // .send({ message: 'Unauthenticated' });
-  }
-  if (err.message === 'not found') {
-    return void res.status(404).send({ message: 'Not found' });
-  }
-  console.error('Final error', err.stack);
-  return void res.status(500).send({ message: 'Server error!' });
+// // 500
+// app.use((err, req, res, next) => {
+//   let a = next();
+//   if (err.message.includes('jwt')) {
+//     return void res
+//       .clearCookie('auth-cookie')
+//       .sendStatus(401)
+//       // .status(401)
+//       // .send({ message: 'Unauthenticated' });
+//   }
+//   if (err.message === 'not found') {
+//     return void res.status(404).send({ message: 'Not found' });
+//   }
+//   console.error('Final error', err.stack);
+//   return void res.status(500).send({ message: 'Server error!' });
 
-  // res.status(500)
-  // utils.renderWithLayout(res, 'error', 'Error', { error: err })
-});
+//   // res.status(500)
+//   // utils.renderWithLayout(res, 'error', 'Error', { error: err })
+// });
 
 
 app.listen(port, hostname, () => {

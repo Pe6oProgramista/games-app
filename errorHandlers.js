@@ -2,7 +2,7 @@ const utils = require("./utils")
 
 module.exports = {
     logErrors (err, req, res, next) {
-        console.error(err.stack);
+        console.error('Error logger: ', err.stack);
         next(err);
     },
 

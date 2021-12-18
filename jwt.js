@@ -3,8 +3,7 @@ const secret = 'dsadsadassdsadsa';
 
 module.exports.createToken = function (payload) {
   return new Promise((resolve, reject) => {
-    const { password, ...payloadWithoutPassword } = payload;
-    jwt.sign(payloadWithoutPassword, process.env.JWT_SECRET || secret, { expiresIn: '6d' }, (err, token) => {
+    jwt.sign(payload, process.env.JWT_SECRET || secret, { expiresIn: (process.env.AUTH_TIME_IN_DAYS || 6) + 'd' }, (err, token) => {
       if (err) { return void reject(err); }
       resolve(token);
     })

@@ -19,6 +19,7 @@
     <nav>
       <a href="/" class="<%= locals.page == 'home' ? 'active' : '' %>">HOME</a>
       <a href="/about" class="<%= locals.page == 'about' ? 'active' : '' %>">ABOUT</a>
+      <input id="signout_button" type="submit" value="Sign out">
     </nav>
 
     <% if (locals.flashMessages) { %>

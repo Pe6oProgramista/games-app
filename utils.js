@@ -15,6 +15,7 @@ module.exports = {
   strictRender(req, res, next) {
     const oldRender = res.render;
     res.render = function(view, options, callback) {
+      // rendered options to be accessible in the views only through the 'locals' object
       options._with = false;
 
       const flashMessages = Object.keys(req.cookies).reduce((acc, key) => {
@@ -44,31 +45,43 @@ module.exports = {
     return res.render(layout, { page, pageTitle, data });
   },
 
+  // token struct: {id, username, created_at}
+
+  // if user isAuth continue (for pages that user has to be auth) like signout
   /**
-   * @function auth
+   * @function isAuth
    * @param {import('express').Request} req
    * @param {import('express').Response} res
    * @param {import('express').NextFunction} next
    * @returns {void}
    */
-  auth(req, res, next) {
+  isAuth(req, res, next) {
     const token = req.cookies['auth-cookie'];
     jwt.verify(token)
-      .then(({ user }) => {
-        req.user = user;
-        next();
-      })
-      .catch(next);
+      .then((user) => next())
+      .catch(err => {
+        return void res.status(401).send({redirectURL: new URL('/signin', `http://${req.headers.host}`)});
+      });
   },
 
-  isAuth(req, res, next) {
-    
-    return next();
-  },
-
+  // if user is notAuth continue (for pages that user has not to be auth) like signin
+  /**
+   * @function notAuth
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   * @returns {void}
+   */
   notAuth(req, res, next) {
-    
-    return next();
+    const token = req.cookies['auth-cookie'];
+    return void jwt.verify(token)
+      .then((user) => {
+        return void res.status(302).send({redirectURL: new URL('/', `http://${req.headers.host}`)});
+      })
+      .catch(err => {
+        res.clearCookie('auth-cookie'); // token could be expired, but still there
+        return void next();
+      });
   },
 
   isJSON(req, res, next) {

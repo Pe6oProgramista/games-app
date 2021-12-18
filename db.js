@@ -32,10 +32,6 @@ function insertUser(username, email, password) {
 		values: [username, email, password]
 	}
     return pool.query(query)
-        .then(result => {
-            console.log(result);
-            return result;
-        })
         .catch(err => {
             console.error('error running insert query', err.stack);
         });
@@ -43,7 +39,7 @@ function insertUser(username, email, password) {
 
 function checkUser(username) {
     const query = {
-		text: 'select (id, username, email) from app.users where username = $1',
+		text: 'select id, username, email from app.users where username = $1',
 		values: [username]
 	}
     return pool.query(query)
@@ -54,7 +50,7 @@ function checkUser(username) {
 
 function authUser(identifier) {
     const query = {
-        text: 'select (password) from app.users where (username = $1 or email = $1)',
+        text: 'select id, username, created_at, password from app.users where (username = $1 or email = $1)',
         values: [identifier]
     }
 
@@ -63,8 +59,6 @@ function authUser(identifier) {
             console.error('error running user check query', err.stack);
         });
 }
-
-
 
 function endPool() {
     pool.end()
