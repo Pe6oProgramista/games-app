@@ -1,9 +1,23 @@
+:root {
+  --navbar-color: green;
+  --default-color: white;
+}
+
 body {
   background-color: rgb(168, 164, 164);
 }
 
-a.active {
-  color: green;
+.nav-link {
+  color: var(--default-color);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--navbar-color);
+}
+
+.nav-link.active {
+  color: var(--navbar-color);
 }
 
 .hidden {

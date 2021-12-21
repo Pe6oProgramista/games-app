@@ -1,5 +1,12 @@
-const Router = require('express').Router;
+const { Router } = require('express');
+
 const userRouter = new Router();
+
+
+
+module.exports = userRouter;
+
+
 
 //GET ALL
 userRouter.get('/', (req, res) => {
@@ -42,5 +49,3 @@ userRouter.delete('/:id', (req, res) => {
 
     // res.send(`User with ${id} was deleted.`);
 });
-
-module.exports = userRouter;

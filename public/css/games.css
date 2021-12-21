@@ -1,0 +1,49 @@
+#games .games-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	row-gap: 10px;
+	column-gap: 20px;
+}
+
+.game-container {
+	align-items: baseline;
+	cursor: default;
+}
+
+.game-img {
+	box-sizing: border-box;
+	border: 1vh solid var(--navbar-color);
+	width: 20vh;
+	height: 20vh;
+	display: block;
+  	/* float: left; */
+	cursor: pointer;
+}
+
+.game-img:active {
+	border: 1.2vh solid var(--navbar-color);
+}
+
+.game-prop {
+	display: block;
+}
+
+#playground {
+    position: fixed;
+	width: 100%;
+    height: 100%;
+	display: block;
+	left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.playground-content {
+    width: 600px;
+    height: 600px;
+	margin: auto;
+    z-index: 2;
+}

@@ -55,7 +55,23 @@ module.exports = {
    * @param {import('express').NextFunction} next
    * @returns {void}
    */
-  isAuth(req, res, next) {
+   auth(req, res, next) {
+    const token = req.cookies['auth-cookie'];
+    jwt.verify(token)
+      .then((user) => next())
+      .catch(err => {
+        return void res.status(401).redirect('/signin');
+      });
+  },
+
+  /**
+   * @function apiAuth
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   * @returns {void}
+   */
+   apiAuth(req, res, next) {
     const token = req.cookies['auth-cookie'];
     jwt.verify(token)
       .then((user) => next())
@@ -73,6 +89,25 @@ module.exports = {
    * @returns {void}
    */
   notAuth(req, res, next) {
+    const token = req.cookies['auth-cookie'];
+    return void jwt.verify(token)
+      .then((user) => {
+        return void res.redirect('/');
+      })
+      .catch(err => {
+        res.clearCookie('auth-cookie'); // token could be expired, but still there
+        return void next();
+      });
+  },
+
+  /**
+   * @function apiNotAuth
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   * @returns {void}
+   */
+   apiNotAuth(req, res, next) {
     const token = req.cookies['auth-cookie'];
     return void jwt.verify(token)
       .then((user) => {

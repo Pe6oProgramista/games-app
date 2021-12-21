@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Pool, Connection } = require('pg');
 
 // process.envs:
 //     DB_USER
@@ -17,7 +17,12 @@ const db_config = {
 };
 
 const pool = new Pool(db_config);
-console.log('pool created');
+
+pool.query('SELECT $1::text as message', ['Pool created!'], (err, res) => {
+    console.log(err ? err.stack : res.rows[0].message);
+})
+
+//transaction: https://stackoverflow.com/questions/66138268/express-postgres-user-registration-controller
 
 /**
  * @function insertUser
@@ -28,24 +33,26 @@ console.log('pool created');
  */
 function insertUser(username, email, password) {
     const query = {
-		text: 'insert into app.users (username, email, password) values ($1, $2, $3)',
+        text: 'insert into app.users (username, email, password) values ($1, $2, $3)',
 		values: [username, email, password]
 	}
     return pool.query(query)
-        .catch(err => {
-            console.error('error running insert query', err.stack);
-        });
+    .catch(err => {
+        console.error('Error running insert query', err.stack);
+        throw err;
+    });
 }
 
 function checkUser(username) {
     const query = {
-		text: 'select id, username, email from app.users where username = $1',
+        text: 'select id, username, email from app.users where username = $1',
 		values: [username]
 	}
     return pool.query(query)
-        .catch(err => {
-            console.error('error running insert query', err.stack);
-        });
+    .catch(err => {
+        console.error('Error running user check query', err.stack);
+        throw err;
+    });
 }
 
 function authUser(identifier) {
@@ -53,16 +60,17 @@ function authUser(identifier) {
         text: 'select id, username, created_at, password from app.users where (username = $1 or email = $1)',
         values: [identifier]
     }
-
+    
     return pool.query(query)
-        .catch(err => {
-            console.error('error running user check query', err.stack);
-        });
+    .catch(err => {
+        console.error('Error running authentication query', err.stack);
+        throw err;
+    });
 }
 
 function endPool() {
     pool.end()
-        .then(() => console.log('pool has ended'));
+    .then(() => console.log('pool has ended'));
 }
 
 module.exports = {

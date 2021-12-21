@@ -5,17 +5,14 @@ const jwt = require('./jwt');
 const utils = require('./utils');
 const db = require('./db');
 
-const { indexRouter, usersRouter } = require('./api');
-const { logErrors, errorHandler } = require('./errorHandlers');
+const apiRouter = require('./routes/api');
+const indexRouter = require('./routes/indexRouter');
 const { flashAll } = require('./flashMessages');
 
 const hostname = '172.29.213.225';
 const port = process.env.PORT || 3000;
 
 const app = express();
-
-app.use(logErrors);
-app.use(errorHandler);
 
 // dev
 app.set('etag', false)
@@ -34,14 +31,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET || 'dsadasdsadsada'));
 app.use(utils.strictRender);
 app.use(flashAll);
 
+app.use('/api', apiRouter);
 app.use('/', indexRouter);
-app.use('/users', utils.isAuth, usersRouter);
-
-// // 404
-// app.use((req, res, next) => {
-//   res.status(404);
-//   utils.renderWithLayout(res, 'not_found', '404');
-// });
 
 // // 500
 // app.use((err, req, res, next) => {

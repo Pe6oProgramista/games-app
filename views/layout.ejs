@@ -12,13 +12,17 @@
   <link rel="icon" href="/static/media/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="/static/css/styles.css">
   <script async defer src="/static/js/index.js"></script>
+
+  <link rel="stylesheet" href="/static/css/games.css">
+  <script async defer src="/static/js/games/games_setup.js"></script>
 </head>
 
 <body>
   <div id="header">
     <nav>
-      <a href="/" class="<%= locals.page == 'home' ? 'active' : '' %>">HOME</a>
-      <a href="/about" class="<%= locals.page == 'about' ? 'active' : '' %>">ABOUT</a>
+      <a href="/" class="nav-link <%= locals.page == 'home' ? 'active' : '' %>">HOME</a>
+      <a href="/about" class="nav-link <%= locals.page == 'about' ? 'active' : '' %>">ABOUT</a>
+      <a href="/games" class="nav-link <%= locals.page == 'games' ? 'active' : '' %>">GAMES</a>
       <input id="signout_button" type="submit" value="Sign out">
     </nav>
 

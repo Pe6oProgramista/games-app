@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1440"
+   height="1440"
+   viewBox="0 0 381 381.00001"
+   version="1.1"
+   id="svg35965"
+   sodipodi:docname="shadow man_black.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview35967"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     width="1e-05mm"
+     units="px"
+     inkscape:zoom="0.52410025"
+     inkscape:cx="634.42061"
+     inkscape:cy="836.67199"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs35962" />
+  <g
+     inkscape:label="レイヤー 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path36230"
+       style="fill:#000000;fill-opacity:1;stroke-width:1.27177"
+       d="M 191.02761,11.62048 A 136.76775,140.28967 0 0 0 54.259736,151.91011 136.76775,140.28967 0 0 0 99.879173,256.40709 166.34855,138.14784 0 0 0 22.84615,372.87544 a 166.34855,138.14784 0 0 0 0.352951,8.21034 H 355.19021 a 166.34855,138.14784 0 0 0 0.35295,-8.21034 A 166.34855,138.14784 0 0 0 280.84176,257.58428 136.76775,140.28967 0 0 0 327.79499,151.91011 136.76775,140.28967 0 0 0 191.02761,11.62048 Z" />
+  </g>
+</svg>
