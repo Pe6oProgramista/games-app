@@ -1,9 +1,9 @@
-<div id="games" class="section">
+<div id="games">
     <div class="games-container">
-        <% let games =Array.from({length: 10}, (_, i) => ({idx: i, name: 'Banana', highScore: 50})) %>
+        <% let games =Array.from({length: 9}, (_, i) => ({id: i, name: 'Banana', highScore: 50})) %>
         <% games.forEach(game => { %>
             <div class="game-container">
-                <img src="/static/media/banana.svg" class="game-img" game="<%= game.idx %>">
+                <img src="/static/media/banana.svg" class="game-img" game_id="<%= game.id %>">
                 <span class="game-prop game-name"><%= game.name %></span>
                 <span class="game-prop game-high-score">High score: <%= game.highScore %> </span>
             </div>
@@ -13,7 +13,7 @@
     <div id="playground">
         <div class="playground-content">
             <span class="close">&times;</span>
-            <canvas id="game-canvas" hidden width="600px" height="600px"></canvas>
+            <canvas id="game-canvas" width="600px" height="600px"></canvas>
         </div>
     </div>
 </div>

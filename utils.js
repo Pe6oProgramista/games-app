@@ -16,7 +16,7 @@ module.exports = {
     const oldRender = res.render;
     res.render = function(view, options, callback) {
       // rendered options to be accessible in the views only through the 'locals' object
-      options._with = false;
+      if(options) options._with = false;
 
       const flashMessages = Object.keys(req.cookies).reduce((acc, key) => {
         if(flashMessagesTypes.includes(key)) {
