@@ -111,19 +111,24 @@ function game2(canvas) {
     }
     
     game.gameOver = function() {
+        this.isOver = true;
         this.balls = [];
         if (this.score > this.highScore)
-        this.highScore = this.score;
+            this.highScore = this.score;
         
         // this.ctx.save();
+        // this.globalAlpha = 0.5; // for images
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.fillRect(0, 0, this.width, this.height);
+        
         this.ctx.font = FONT;
         this.ctx.fillStyle = FONT_COLOR;
-        this.ctx.fillText('Game Over. Press space to restart.', this.width/2 - 10, this.height/2);
+        this.ctx.fillText('Game Over. Press space to restart.', this.width/2 - 200, this.height/2);
     }
 
     game.isMouseCollide = function() {
         if (this.collide) return;
-        if (this.mouse.pos.y > this.height || this.mouse.pos.y < 0 || this.mouse.x > this.width || this.mouse.x < 0) {
+        if (this.mouse.pos.y > this.height || this.mouse.pos.y < 0 || this.mouse.pos.x > this.width || this.mouse.pos.x < 0) {
             this.gameOver();
         }
 
@@ -134,17 +139,39 @@ function game2(canvas) {
         }
     }
 
+    game.restart = function() {
+        this.lives = 3;
+        this.score = 0;
+        this.highScore = 0;
+        this.last_time_ms = Date.now();
+
+        this.balls = [];
+        for (let i = 0; i < 10; i++) {
+            this.balls[i] = this.randomBall();
+        }
+        this.setCollided();
+    }
+
     game.setup = function() {
         this.timeouts = [];
         this.intervals = [];
+
         this.balls = [];
         this.mouse = new Mouse(this.ctx.canvas);
+        this.isOver = false;
+        this.collide = false;
+        this.collideTimer;
+
+        document.addEventListener('keyup', event => {
+            if (event.code === 'Space' && this.isOver) {
+                this.restart();
+                this.isOver = false;
+            }
+        })
 
         this.lives = 3;
         this.score = 0;
         this.highScore = 0;
-        this.collide = false;
-        this.collideTimer;
         this.last_time_ms = Date.now();
 
         for (let i = 0; i < 10; i++) {
@@ -154,8 +181,10 @@ function game2(canvas) {
     }
 
     game.update = function(time_ms) {
+        if(this.isOver) return;
+
         this.ctx.clearRect(0, 0, this.width, this.height);
-        // this.ctx.fillStyle = `black`;
+        // this.ctx.fillStyle = `black`; // 'rgba(255, 255, 255, 0.5)';
         // this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
         const time_delta_ms = time_ms - this.last_time_ms;
