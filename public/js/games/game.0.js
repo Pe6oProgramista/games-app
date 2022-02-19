@@ -1,6 +1,6 @@
 function game0(canvas) {
     console.log('Hello from game 0');
-    let game = new Game(canvas);
+    let game = new Game(canvas, 0);
     
     game.setup = function() {
         this.square = {

@@ -1,17 +1,14 @@
-const {Router} = require('express');
-const path = require('path');
+import { Router }from 'express';
+import * as path from 'path';
 
-const { logErrors, apiFinalHandler, apiNotFoundHandler } = require('../../errorHandlers');
-const { renderWithLayout } = require('../../utils');
-const authRouter = require('./authRouter');
-const usersRouter = require('./usersRouter');
+import { logErrors, apiFinalHandler, apiNotFoundHandler } from '../../errorHandlers';
+import { renderWithLayout }from '../../utils';
+import authRouter from './authRouter';
+import usersRouter from './usersRouter';
 
-const apiRouter = new Router();
+const apiRouter = Router();
 
-
-
-module.exports = apiRouter;
-
+export default apiRouter;
 
 
 apiRouter.use('/auth', authRouter);

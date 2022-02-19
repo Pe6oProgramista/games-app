@@ -1,4 +1,8 @@
+.vscode
 jsconfig.json
+public/js/games/B_20_Peter_Milev_27_Todor_Dimitrov.js
+public/js/games/flappy_tmp.js
+public/js/games/game.3.js
 
 database/InfinityCaveGameDB.sql
 database/schema.sql

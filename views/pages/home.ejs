@@ -1,1 +1,9 @@
-<h1>Hello</h1>
+<%- include('../partials/head', { pageTitle: 'Home', ...locals }) %>
+
+<%- include('../partials/header', { page: 'home', ...locals }) %>
+
+<div id="root">
+    <h1>Hello</h1>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,22 @@
+
+<%- include('../partials/head', { pageTitle: 'Leaderboard', ...locals }) %>
+
+<%- include('../partials/header', { page: 'leaderboard', ...locals }) %>
+
+<div id="root">
+    <div id="leaderboard">
+        <ul class="games-scores-ul">
+            <% locals.games.forEach((game) => { %>
+                <li><%= game.name %>
+                    <ul class="scores-ul">
+                        <% game.us.forEach((us) => { %>
+                            <li><%= us.user + ': ' + us.score %></li>
+                        <% }) %>
+                    </ul>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

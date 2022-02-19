@@ -1,0 +1,18 @@
+
+<div id="header">
+    <nav>
+        <a href="/" class="nav-link <%= locals.page == 'home' ? 'active' : '' %>">HOME</a>
+        <a href="/about" class="nav-link <%= locals.page == 'about' ? 'active' : '' %>">ABOUT</a>
+        <a href="/games" class="nav-link <%= locals.page == 'games' ? 'active' : '' %>">GAMES</a>
+        <a href="/leaderboard" class="nav-link <%= locals.page == 'leaderboard' ? 'active' : '' %>">Leaderboard</a>
+
+        <% if (typeof locals.auth === 'boolean' && locals.auth) { %>
+            <input id="signout_button" type="submit" value="Sign out">
+        <% } else { %>
+            <a href="/signin" class="nav-link <%= locals.page == 'signin' ? 'active' : '' %>">Sign in</a>
+            <a href="/signup" class="nav-link <%= locals.page == 'signup' ? 'active' : '' %>">Sign up</a>
+        <% } %>
+    </nav>
+
+    <%- include('./messages') %>
+</div>

@@ -1,11 +1,8 @@
-
-function random(min, max) {
-    return Math.random() * (max - min) + min;
-} 
-
-
-
 function game2(canvas) {
+    const random = function(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
     class Vector {
         constructor(x = 0, y = 0) {
             this.x = x;
@@ -22,7 +19,7 @@ function game2(canvas) {
             this.collideColor = collideColor || 'red';
         }
 
-        draw(ctx, options = {time_delta_ms: 0, collide: false}) {
+        draw (ctx, options = {time_delta_ms: 0, collide: false}) {
             // ctx.save();
             ctx.beginPath();
             ctx.arc(this.pos.x, this.pos.y, this.r, 0, 2 * Math.PI); // check color with diff angle
@@ -46,7 +43,7 @@ function game2(canvas) {
             this.pos = {...newPos}
         }
             
-        mouseOver(mousePos) {
+        mouseOver (mousePos) {
             return (mousePos.x - this.pos.x) ** 2 + (mousePos.y - this.pos.y) ** 2 <= this.r ** 2
         }
     }
@@ -54,10 +51,11 @@ function game2(canvas) {
     class Mouse {
         constructor(canvas) {
             this.pos = new Vector();
-            
-            window.addEventListener('mousemove', e => {
-                this.pos = Mouse.getPosAt(canvas, e);
-            });
+            this.canvas = canvas;
+        }
+
+        posHandler = (event) => { // arrow function auto bind it
+            this.pos = Mouse.getPosAt(this.canvas, event);
         }
         
         static getPosAt(canvas, e) {
@@ -68,20 +66,27 @@ function game2(canvas) {
                 e.clientY - rect.top);
         }
     }
-        
 
-
+    
+    
     const MAX_BALL_R = 60;
     const MIN_BALL_R = 15;
     const INITIAL_VEL = 0.4;
     const FONT_COLOR = 'green';
     const FONT = '25px Arial'; // Comic Sans MS
-
+    
     
 
     console.log('Hello from game 1');
-    let game = new Game(canvas);
-
+    let game = new Game(canvas, 2);
+    
+    
+    const PressSpaceToRestartHandler = (function(event) {
+        if (event.code === 'Space' && this.isOver) {
+            this.restart();
+            this.isOver = false;
+        }
+    }).bind(game)
 
     game.setCollided = function(timeout = 1000) {
         this.collide = true;
@@ -142,8 +147,6 @@ function game2(canvas) {
     game.restart = function() {
         this.lives = 3;
         this.score = 0;
-        this.highScore = 0;
-        this.last_time_ms = Date.now();
 
         this.balls = [];
         for (let i = 0; i < 10; i++) {
@@ -162,17 +165,16 @@ function game2(canvas) {
         this.collide = false;
         this.collideTimer;
 
-        document.addEventListener('keyup', event => {
-            if (event.code === 'Space' && this.isOver) {
-                this.restart();
-                this.isOver = false;
-            }
-        })
+        // this.mouse2 = new Mouse(this.ctx.canvas);
+
+        window.addEventListener('mousemove', this.mouse.posHandler);
+        // window.addEventListener('mousemove', this.mouse2.posHandler);
+        document.addEventListener('keyup', PressSpaceToRestartHandler);
 
         this.lives = 3;
         this.score = 0;
-        this.highScore = 0;
-        this.last_time_ms = Date.now();
+        // this.highScore = 0;
+        this.last_time_ms = null;
 
         for (let i = 0; i < 10; i++) {
             this.balls[i] = this.randomBall();
@@ -181,19 +183,26 @@ function game2(canvas) {
     }
 
     game.update = function(time_ms) {
+        const time_delta_ms = (this.last_time_ms === null)? 0 : time_ms - this.last_time_ms;
+        this.last_time_ms = time_ms;
+
+        if(this.stopped) {
+            window.removeEventListener('mousemove', this.mouse.posHandler);
+            document.removeEventListener('keyup', PressSpaceToRestartHandler);
+            return;
+        }
         if(this.isOver) return;
+        this.score += time_delta_ms/1000;
 
         this.ctx.clearRect(0, 0, this.width, this.height);
         // this.ctx.fillStyle = `black`; // 'rgba(255, 255, 255, 0.5)';
         // this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        const time_delta_ms = time_ms - this.last_time_ms;
-        this.last_time_ms = time_ms;
 
         this.balls.forEach(b => b.draw(this.ctx, {time_delta_ms, collide: this.collide}));
         this.ctx.font = FONT;
         this.ctx.fillStyle = FONT_COLOR;
-        this.ctx.fillText(`Score: ${this.score}`, 10, 20);
+        this.ctx.fillText(`Score: ${Math.round(this.score*100)/100}`, 10, 20);
         this.ctx.fillText(`Lives: ${this.lives}`, 10, 40);
         this.ctx.fillText(`HighScore: ${this.highScore}`, 10, 60);
         this.isMouseCollide();

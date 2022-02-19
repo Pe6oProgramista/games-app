@@ -1,33 +1,43 @@
-var flashFunctions = [
-    function flashNotice(message) {
+import { NextFunction, Request, Response } from "express";
+import { asDict } from "./utils";
+
+const flashFunctions: ((message: any) => void)[] = [
+    function flashNotice(this: any, message) {
         this.cookie('notice', message, {encode: String});
     },
     
-    function flashError(message) {
+    function flashError(this: any, message) {
         this.cookie('error', message, {encode: String});
     },
 
-    function flashWarning(message) {
+    function flashWarning(this: any, message) {
         this.cookie('warning', message, {encode: String});
     },
 
-    function flashInfo(message) {
+    function flashInfo(this: any, message) {
         this.cookie('info', message, {encode: String});
     },
 
-    function flashAlert(message) {
+    function flashAlert(this: any, message) {
         this.cookie('alert', message, {encode: String});
     }
 ]
 
-module.exports = {
-    // notice error warning info alert    
-    flashMessagesTypes: flashFunctions.map(f => f.name),
+const flashMessagesTypes: string[] = flashFunctions.map(f => f.name);
 
-    flashAll(req, res, next) {
-        flashFunctions.forEach( (f) => res[f.name] = f );
-        next();
-    }
+
+
+function flashAll(req: Request, res: Response, next: NextFunction) {
+    flashFunctions.forEach( (f) => asDict(res)[f.name] = f );
+    next();
+}
+
+let a = {} as {[x:string]: any}
+
+export {
+    // notice error warning info alert    
+    flashMessagesTypes,
+    flashAll
 }
 
 

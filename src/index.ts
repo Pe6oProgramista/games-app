@@ -1,16 +1,15 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
+import express  from 'express';
+import cookieParser from 'cookie-parser';
+import path from 'path';
 
-const jwt = require('./jwt');
-const utils = require('./utils');
-const db = require('./db');
+import env from './envConfig';
 
-const apiRouter = require('./routes/api');
-const indexRouter = require('./routes/indexRouter');
-const { flashAll } = require('./flashMessages');
-
-const hostname = '172.29.213.225';
-const port = process.env.PORT || 3000;
+import apiRouter from './routes/api';
+import indexRouter from './routes/indexRouter';
+import { flashAll } from './flashMessages';
+import { connect } from './database/connect';
+import { models } from './database/models';
+import { setAuthLocal } from './utils';
 
 const app = express();
 
@@ -21,16 +20,17 @@ app.use((req, res, next) => {
   next()
 })
 
+app.set( 'views', path.resolve('views') );
 app.set('view engine', 'ejs'); // app.set('views','views');
-app.set('layout', './layout');
+// app.set('layout', './layout');
 app.use( '/static', express.static('public', {index: false}) );
 app.use(express.json()); // for json-like request body
 app.use(express.urlencoded({extended: true})); // for urlencoded requests like default form submit
-app.use(cookieParser(process.env.COOKIE_SECRET || 'dsadasdsadsada'));
+app.use(cookieParser(env.COOKIE_SECRET || 'dsadasdsadsada'));
 
-app.use(utils.strictRender);
+// app.use(utils.strictRender);
 app.use(flashAll);
-
+app.use(setAuthLocal);
 app.use('/api', apiRouter);
 app.use('/', indexRouter);
 
@@ -54,7 +54,18 @@ app.use('/', indexRouter);
 //   // utils.renderWithLayout(res, 'error', 'Error', { error: err })
 // });
 
+app.on('ready', function() {
+  app.listen(env.PORT || 3000, env.HOST || 'localhost', () => {
+    console.log(`Server is listening on http://${env.HOST}:${env.PORT}`);
+  });
 
-app.listen(port, hostname, () => {
-  console.log(`Server is listening on http://${hostname}:${port}`);
+  // models.Game.insert('game.0');
+  // models.Game.insert('game.1');
+  // models.Game.insert('game.2');
 });
+
+connect().then(msg => {
+  console.log(msg);
+  app.emit('ready');
+}).catch(err => console.error('Database connection ERROR:', err.stack))
+.then();

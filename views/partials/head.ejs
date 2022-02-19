@@ -1,0 +1,19 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>
+      <%= locals.pageTitle? locals.pageTitle : 'Games app' %>
+    </title>
+
+    <link rel="icon" href="/static/media/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script async defer src="/static/js/index.js"></script>
+    <% if (typeof locals.auth === 'boolean' && locals.auth) { %>
+      <script async defer src="/static/js/signed.js"></script>
+    <% } else { %>
+      <script async defer src="/static/js/unsigned.js"></script>
+    <% } %>
+</head>
+  

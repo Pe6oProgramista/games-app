@@ -1,0 +1,37 @@
+tsconfig.json:  generates with this ./node_modules/.bin/tsc --init
+задаваме директорията в/у която typescript ще работи
+и кои файлове точно искаме да вземеме
+
+outDur - къде да отиват компилираните файлове
+
+sourceMap - имаме 2 типа файла (js, ts)  когато дебъгваме да не дебъгваме в js, а в нашите ts файлове
+прави mapping между ts и js за debug-a (създава sourcemap файлове)
+inlineSourceMap - include-ва sourcemap файловете в js файловете
+
+
+правим си launch.json за да си дебъгваме приложението (по-особен начин ще build-ва нашето приложение)
+
+
+type definition files: файлове с ts дефиниции на js функции/класове и т.н. за библиотеки които не са на ts
+    така че да имаме autocomplete и intelissense
+
+    https://github.com/DefinitelyTyped/DefinitelyTyped - всички type файлове
+    npm i @types/express --save-dev
+
+
+
+
+
+
+
+
+typescript imports:
+    import defaultMember from "module-name";
+    import * as name from "module-name";
+    import { member } from "module-name";
+    import { member as alias } from "module-name";
+    import { member1 , member2 } from "module-name";
+    import { member1 , member2 as alias2 , [...] } from "module-name";
+    import defaultMember, { member [ , [...] ] } from "module-name";
+    import defaultMember, * as name from "module-name";
+    import "module-name";
